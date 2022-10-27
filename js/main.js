@@ -1,17 +1,30 @@
-function checkLength(checkString, maxLength)
-{
-  return checkString.length < maxLength;
+function getRandomPositiveInteger(a, b) {
+  if (a < 0 || b < 0) {
+    return NaN;
+  }
+  const lower = Math.ceil(Math.min(a, b));
+  const upper = Math.floor(Math.max(a, b));
+  const result = Math.random() * (upper - lower + 1) + lower;
+  return Math.floor(result);
 }
 
-checkLength('Проверяемая строка', 100);
+let indexID = 0;
 
+const createId = function () {
+  indexID++;
+  return indexID;
+};
 
-function getRandomNumber (min, max)
-{
-  const lower = min;
-  const upper = max;
-  const random = Math.random();
-  return Math.floor(random * (upper - lower + 1) + lower);
+function createPhoto() {
+  return {
+    id: createId(),
+    url: 'photos / { indexID }.jpg',
+    description: 'Описание фотографии',
+    likes: getRandomPositiveInteger(15, 200),
+    comments: getRandomPositiveInteger(15, 200),
+  };
 }
 
-getRandomNumber (20, 140);
+const resultArray = Array.from({ length: 25 }, createPhoto);
+
+console.log(resultArray);
