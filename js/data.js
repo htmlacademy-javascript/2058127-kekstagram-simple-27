@@ -14,6 +14,7 @@ const createId = function () {
   return indexID;
 };
 
+
 function createPhoto() {
   return {
     id: createId(),
