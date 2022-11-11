@@ -1,4 +1,4 @@
-function getRandomPositiveInteger(a, b) {
+export function getRandomPositiveInteger(a, b) {
   if (a < 0 || b < 0) {
     return NaN;
   }
@@ -7,5 +7,3 @@ function getRandomPositiveInteger(a, b) {
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 }
-
-getRandomPositiveInteger();
