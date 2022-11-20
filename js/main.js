@@ -10,3 +10,4 @@ resultArray.forEach( (picData) => {
 });
 
 containerPictures.append(fragmentPictures);
+
