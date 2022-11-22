@@ -6,26 +6,25 @@ const imagePreviewContainer = uploadFormElement.querySelector('.img-upload__prev
 const imagePreviewElement = uploadFormElement.querySelector('.img-upload__preview img');
 const sliderEffect = uploadFormElement.querySelector('.effect-level__slider');
 const effectsList = uploadFormElement.querySelector('.effects__list');
-const effectRangeValue = uploadFormElement.querySelector('effect-level__value');
+const effectRangeValue = uploadFormElement.querySelector('.effect-level__value');
 
 function setScale(scale) {
-  if (scale > 100) scale = 100;
-  if (scale > 25) scale = 25;
-  console.log(scale);
-  scaleValueButton.value = `${scale}%`
-  imagePreview.style.transform = `scale(${scale / 100})`;
+  if (scale > 100) { scale = 100; }
+  if (scale < 25) { scale = 25; }
+  scaleValueButton.value = `${scale}%`;
+  imagePreviewContainer.style.transform = `scale(${scale / 100})`;
 }
 
 scaleSmallerButton.addEventListener('click', () => {
-  setScale(parseInt(scaleValueButton.value) - 25)
-})
+  setScale(parseInt(scaleValueButton.value) - 25);
+});
 
 scaleBiggerButton.addEventListener('click', () => {
-  setScale(parseInt(scaleValueButton.value) + 25)
-})
+  setScale(parseInt(scaleValueButton.value) + 25);
+});
 
 function setEffect() {
-  const effectRadioElement = uploadFormElement.querySelector('effects__radio:checked');
+  const effectRadioElement = uploadFormElement.querySelector('.effects__radio:checked');
   const effect = effectRadioElement.value;
   let filter = 'none';
   switch (effect) {
@@ -48,9 +47,10 @@ function setEffect() {
     case 'heat':
       filter = `brightness(${value * 2 + 1})`
       break;
+    default:
+      break;
   }
-
-  imagePreview.style.filter = filter;
+  imagePreviewElement.style.filter = filter;
 }
 
 function initialSlider() {
@@ -64,28 +64,32 @@ function initialSlider() {
     step: 0.1,
   });
   sliderEffect.noUiSlider.on('update', () => {
-    effectRangeValue.value - sliderEffect.noUiSlider.get();
-  })
+    effectRangeValue.value = sliderEffect.noUiSlider.get();
+    setEffect();
+  });
 
   return sliderEffect;
 }
 
-const slider = initialSlider();
-
 function onChangeEffect(evt) {
+  const slider = initialSlider();
+  if (!slider) slider = initialSlider();
   console.log(slider);
   if (!slider) slider = initialSlider();
-  if (evt.target.value === 'marvin')
+  if (evt.target.value === 'marvin') {
     slider.noUiSlider.updateOptions({
       step: 1,
-    });
+    })
+  };
   else {
     slider.noUiSlider.updateOptions({
       step: 0.1
     });
   }
-  slider.nodeName.noUiSlider.set(100);
-  visibledSlider(slider)
-  if (evt.target.value === 'none') slider.noUiSlider.destroy();
-  setEffect()
+  slider.noUiSlider.set(100);
+  visibledSlider(slider);
+  if (evt.target.value === 'none') { slider.noUiSlider.destroy(); slider = null; }
+  setEffect(effectRangeValue);
 }
+
+effectsList.addEventListener('change', onChangeEffect);
