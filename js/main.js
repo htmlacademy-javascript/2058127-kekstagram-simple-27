@@ -1,21 +1,24 @@
-import { resultArray } from './data.js';
 import { createPicture } from './picture.js';
 import './modal.js';
 import './pictures-editor.js';
-//import { createLoader } from './load.js';
+import { makeRequest } from './api.js';
+import { closeModal, setFormSubmit } from './modal.js';
+import { createErrorMessage } from './message.js';
 
-// console.log(resultArray);
 const containerPictures = document.querySelector('.pictures');
-const fragmentPictures = document.createDocumentFragment();
+const renderSimilarPictures = (similarPicrure) => {
+  const similarListFragment = document.createDocumentFragment();
+  similarPicrure.forEach((dataPic) => {
+    similarListFragment.append(createPicture(dataPic));
+  });
+  containerPictures.append(similarListFragment);
+};
 
-resultArray.forEach((picData) => {
-  fragmentPictures.append(createPicture(picData));
-});
-
-containerPictures.append(fragmentPictures);
-
-/*const loadAnimals = createLoader(console.log(), console.error());
-
-loadAnimals();*/
+const onSuccessData = (pictures) => {
+  renderSimilarPictures(pictures);
+};
 
 
+setFormSubmit(closeModal);
+
+makeRequest({endpoint: 'data', onSuccess:onSuccessData, onFail: createErrorMessage});
