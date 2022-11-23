@@ -1,9 +1,9 @@
 import { isEscapeKey } from './util.js';
 
 const form = document.querySelector('.img-upload__form');
-const formInput = document.querySelector('.#upload-file');
+const formInput = document.querySelector('#upload-file');
 const userModalElement = document.querySelector('#upload-select-image');
-const closeFormModalElement = userModalElement.querySelector('#upload__cancel');
+const closeFormModalElement = userModalElement.querySelector('#upload-cancel');
 const openFormModalElement = userModalElement.querySelector('.img-upload__overlay');
 const mainPage = document.querySelector('body');
 

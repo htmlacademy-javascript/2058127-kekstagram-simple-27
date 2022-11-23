@@ -16,36 +16,38 @@ function setScale(scale) {
 }
 
 scaleSmallerButton.addEventListener('click', () => {
-  setScale(parseInt(scaleValueButton.value) - 25);
+  setScale(parseInt(scaleValueButton.value, 10) - 25);
 });
 
 scaleBiggerButton.addEventListener('click', () => {
-  setScale(parseInt(scaleValueButton.value) + 25);
+  setScale(parseInt(scaleValueButton.value, 10) + 25);
 });
 
 function setEffect() {
   const effectRadioElement = uploadFormElement.querySelector('.effects__radio:checked');
   const effect = effectRadioElement.value;
+  const value = effectRangeValue.value;
+
   let filter = 'none';
   switch (effect) {
     case 'chrome':
-      filter = `grayscale(${value})`
+      filter = `grayscale(${value / 100})`;
       break;
 
     case 'sepia':
-      filter = `sepia(${value})`
+      filter = `sepia(${value / 100})`;
       break;
 
     case 'marvin':
-      filter = `invert(${value * 100}%)`
+      filter = `invert(${value}%)`;
       break;
 
     case 'phobos':
-      filter = `blire(${value * 3}px)`
+      filter = `blur(${value / 100 * 3}px)`;
       break;
 
     case 'heat':
-      filter = `brightness(${value * 2 + 1})`
+      filter = `brightness(${value / 100 * 2 + 1})`;
       break;
     default:
       break;
@@ -64,32 +66,31 @@ function initialSlider() {
     step: 0.1,
   });
   sliderEffect.noUiSlider.on('update', () => {
+
     effectRangeValue.value = sliderEffect.noUiSlider.get();
     setEffect();
   });
 
   return sliderEffect;
 }
-
+let slider;
 function onChangeEffect(evt) {
-  const slider = initialSlider();
-  if (!slider) slider = initialSlider();
-  console.log(slider);
-  if (!slider) slider = initialSlider();
+
+  if (!slider) { slider = initialSlider(); }
   if (evt.target.value === 'marvin') {
     slider.noUiSlider.updateOptions({
       step: 1,
-    })
-  };
+    });
+  }
   else {
     slider.noUiSlider.updateOptions({
       step: 0.1
     });
   }
   slider.noUiSlider.set(100);
-  visibledSlider(slider);
+  //visibledSlider(slider);
   if (evt.target.value === 'none') { slider.noUiSlider.destroy(); slider = null; }
-  setEffect(effectRangeValue);
+  setEffect();
 }
 
 effectsList.addEventListener('change', onChangeEffect);
