@@ -1,21 +1,22 @@
-import { isEscapeKey } from "./util.js";
+import { isEscapeKey } from './util.js';
 
 const form = document.querySelector('.img-upload__form');
 const formInput = document.querySelector('#upload-file');
+const userModalElement = document.querySelector('#upload-select-image');
+const closeFormModalElement = userModalElement.querySelector('#upload-cancel');
 const openFormModalElement = userModalElement.querySelector('.img-upload__overlay');
-const userModalElement = document.querySelector('#upload__cancel');
 const mainPage = document.querySelector('body');
 
 const openModal = () => {
-  openFormModalElement.classList.add('hidden');
-  mainPage.classList.remove('modal-open');
-  document.addEventListener('keydown' handleEsqKeydown);
+  openFormModalElement.classList.remove('hidden');
+  mainPage.classList.add('modal-open');
+  document.addEventListener('keydown', handleEsqKeydown);
 };
 
 const closeModal = () => {
   openFormModalElement.classList.add('hidden');
   mainPage.classList.remove('modal-open');
-  document.removeEventListener('keydown' handleEsqKeydown);
+  document.removeEventListener('keydown', handleEsqKeydown);
 };
 
 
@@ -29,7 +30,7 @@ closeFormModalElement.addEventListener('click', closeModal);
 function handleEsqKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeModal()
+    closeModal();
   }
 }
 
@@ -47,4 +48,4 @@ form.addEventListener('submit', (evt) => {
   if (isValid) {
     form.submit();
   }
-})
+});
