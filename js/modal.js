@@ -1,5 +1,6 @@
 import { makeRequest } from './api.js';
 import { createErrorMessage, createSuccessMessage } from './message.js';
+import { clearSlider } from './pictures-editor.js';
 import { isEscapeKey } from './util.js';
 
 const form = document.querySelector('.img-upload__form');
@@ -22,12 +23,10 @@ export const closeModal = () => {
   document.removeEventListener('keydown', handleEsqKeydown);
 };
 
-
 // Открытие формы
 formInput.addEventListener('change', openModal);
 
 // Закрытие формы
-
 closeFormModalElement.addEventListener('click', closeModal);
 
 function handleEsqKeydown(evt) {
@@ -38,7 +37,6 @@ function handleEsqKeydown(evt) {
 }
 
 // Комментарий в форме
-
 const pristine = new Pristine(form, {
   classTo: 'img-upload__text',
   errorTextParent: 'img-upload__text',
@@ -52,6 +50,7 @@ const setFormSubmit = (onSuccess) => {
     const onSuccessForm = () => {
       onSuccess();
       createSuccessMessage();
+      clearSlider();
     };
 
     const isValid = pristine.validate();

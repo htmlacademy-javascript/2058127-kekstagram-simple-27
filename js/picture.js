@@ -1,7 +1,7 @@
 const templateElement = document.querySelector('#picture').content.querySelector('.picture');
 
 
-export function createPicture(data) {
+export const createPicture = (data) => {
   const pictureElement = templateElement.cloneNode(true);
   const imageElement = pictureElement.querySelector('.picture__img');
   const commenElement = pictureElement.querySelector('.picture__comments');
@@ -12,4 +12,4 @@ export function createPicture(data) {
   likesElement.textContent = data.likes;
 
   return pictureElement;
-}
+};

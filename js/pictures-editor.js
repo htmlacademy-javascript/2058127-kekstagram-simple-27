@@ -8,22 +8,14 @@ const sliderEffect = uploadFormElement.querySelector('.effect-level__slider');
 const effectsList = uploadFormElement.querySelector('.effects__list');
 const effectRangeValue = uploadFormElement.querySelector('.effect-level__value');
 
-function setScale(scale) {
+const setScale = (scale) => {
   if (scale > 100) { scale = 100; }
   if (scale < 25) { scale = 25; }
   scaleValueButton.value = `${scale}%`;
   imagePreviewContainer.style.transform = `scale(${scale / 100})`;
-}
+};
 
-scaleSmallerButton.addEventListener('click', () => {
-  setScale(parseInt(scaleValueButton.value, 10) - 25);
-});
-
-scaleBiggerButton.addEventListener('click', () => {
-  setScale(parseInt(scaleValueButton.value, 10) + 25);
-});
-
-function setEffect() {
+const setEffect = () => {
   const effectRadioElement = uploadFormElement.querySelector('.effects__radio:checked');
   const effect = effectRadioElement.value;
   const value = effectRangeValue.value;
@@ -53,9 +45,9 @@ function setEffect() {
       break;
   }
   imagePreviewElement.style.filter = filter;
-}
+};
 
-function initialSlider() {
+const initialSlider = () => {
   noUiSlider.create(sliderEffect, {
     range: {
       min: 0,
@@ -72,10 +64,10 @@ function initialSlider() {
   });
 
   return sliderEffect;
-}
-let slider;
-function onChangeEffect(evt) {
+};
 
+let slider;
+const onChangeEffect = (evt) => {
   if (!slider) { slider = initialSlider(); }
   if (evt.target.value === 'marvin') {
     slider.noUiSlider.updateOptions({
@@ -88,9 +80,21 @@ function onChangeEffect(evt) {
     });
   }
   slider.noUiSlider.set(100);
-  //visibledSlider(slider);
   if (evt.target.value === 'none') { slider.noUiSlider.destroy(); slider = null; }
   setEffect();
-}
+};
+
+export const clearSlider = () => {
+  slider.noUiSlider.destroy();
+  slider = null;
+};
+
+scaleSmallerButton.addEventListener('click', () => {
+  setScale(parseInt(scaleValueButton.value, 10) - 25);
+});
+
+scaleBiggerButton.addEventListener('click', () => {
+  setScale(parseInt(scaleValueButton.value, 10) + 25);
+});
 
 effectsList.addEventListener('change', onChangeEffect);
